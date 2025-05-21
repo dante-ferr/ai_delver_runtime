@@ -3,7 +3,7 @@ from typing import Optional, Any
 from pyglet import sprite, image
 from pyglet.image.animation import Animation
 from pyglet.graphics import Batch
-from utils import refine_texture
+from ...utils import refine_texture
 
 
 class Item(WorldObject):

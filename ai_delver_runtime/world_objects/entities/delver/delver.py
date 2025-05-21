@@ -20,22 +20,20 @@ class Delver(SkeletalEntity):
     run_angle = 0.0
 
     def __init__(self, runtime, space: pymunk.Space):
-        super().__init__(runtime)
-
         mass = 1
         radius = 10
-
         body = DelverBody(mass=mass, moment=pymunk.moment_for_circle(mass, 0, radius))
-        self.body = body
+
         shape = pymunk.Circle(body, radius)
         shape.collision_type = 1
         space.add(body, shape)
-        super().__init__(body)
 
         body.setup_collision_handlers()
         body.max_velocity = self.move_speed
 
         self.skeleton = Skeleton("assets/img/sprites/delver", delver_groups)
+
+        super().__init__(runtime, body)
 
     def update(self, dt):
         self.skeleton.set_position(self.body.position.x, self.body.position.y)

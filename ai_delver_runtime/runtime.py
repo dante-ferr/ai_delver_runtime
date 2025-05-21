@@ -1,4 +1,3 @@
-import json
 from typing import cast
 from typing import Any
 from .world_objects import WorldObjectsController, WorldObject
@@ -10,26 +9,28 @@ from pytiling import (
     PymunkTilemapPhysics,
 )
 from pytiling.pyglet_support import TilemapRenderer
-from typing import TYPE_CHECKING
+import pymunk
 
-if TYPE_CHECKING:
-    import pymunk
+import json
+from pathlib import Path
 
-with open("src/runtime/config.json", "r") as file:
-    config_data = json.load(file)
+with open(Path(__file__).parent / "config.json", "r") as file:
+    config = json.load(file)
 
-pdb_config.fps = config_data["fps"]
+pdb_config.fps = config["fps"]
 
 
 class Runtime:
     def __init__(self, level: Any):
         self.level = level
-        self.space = space = pymunk.Space()
+        self.space = pymunk.Space()
         self.space.gravity = (0, 0)
 
         self.running = False
 
-        self.world_objects_controller = self.world_objects_controller_factory(space)
+        self.world_objects_controller = self.world_objects_controller_factory(
+            self.space
+        )
         self.delver = cast(
             "Delver", self.world_objects_controller.get_world_object("delver")
         )

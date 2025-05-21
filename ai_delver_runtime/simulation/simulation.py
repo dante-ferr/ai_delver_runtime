@@ -1,11 +1,10 @@
 from .. import Runtime
-from typing import Any
 from .delver_action import DelverAction
 
 
 class Simulation(Runtime):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, level):
+        super().__init__(level)
 
         self.elapsed_time = 0.0
         self.delver_actions: list[DelverAction] = []

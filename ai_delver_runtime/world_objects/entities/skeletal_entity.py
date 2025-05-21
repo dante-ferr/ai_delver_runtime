@@ -1,5 +1,4 @@
 from typing import TYPE_CHECKING
-from pymunk import Vec2d
 from .entity import Entity
 
 if TYPE_CHECKING:
