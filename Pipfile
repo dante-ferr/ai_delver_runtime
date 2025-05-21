@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+
+[packages]
+pytiling = {editable = true, path = "./pytiling"}
+pyglet_dragonbones = {editable = true, path = "./pyglet_dragonbones"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.11.0"
