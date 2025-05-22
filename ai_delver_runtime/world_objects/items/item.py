@@ -3,7 +3,6 @@ from typing import Optional, Any
 from pyglet import sprite, image
 from pyglet.image.animation import Animation
 from pyglet.graphics import Batch
-from ...utils import refine_texture
 
 
 class Item(WorldObject):
@@ -42,7 +41,6 @@ class Item(WorldObject):
 
     def _get_sprite(self, img: Any):
         spr = sprite.Sprite(img, batch=self.batch)
-        refine_texture()
         return spr
 
     def _compensate_offset_centering(self):

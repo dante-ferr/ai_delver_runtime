@@ -1,16 +1,16 @@
-from typing import cast
-from typing import Any
+from typing import cast, Any
 from .world_objects import WorldObjectsController, WorldObject
 from .world_objects.entities.delver import Delver
 from .world_objects.items import Goal
 from pyglet_dragonbones import config as pdb_config
-from pytiling import (
-    TilemapBorderTracer,
-    PymunkTilemapPhysics,
-)
-from pytiling.pyglet_support import TilemapRenderer
-import pymunk
 
+# Pylance throws a nonsense error here, so I had to ignore type checking.
+from pytiling import (
+    TilemapBorderTracer,  # type: ignore
+    PymunkTilemapPhysics,  # type: ignore
+)
+from pytiling.pyglet_support import TilemapRenderer  # type: ignore
+import pymunk
 import json
 from pathlib import Path
 

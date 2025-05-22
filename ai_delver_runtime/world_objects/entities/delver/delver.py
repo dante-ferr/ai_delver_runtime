@@ -1,7 +1,6 @@
 import pyglet
 from pyglet_dragonbones.skeleton import Skeleton
 from .delver_body import DelverBody
-import json
 import pymunk
 from ..skeletal_entity import SkeletalEntity
 
