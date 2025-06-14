@@ -7,8 +7,8 @@ readme = "README.md"
 packages = [{ include = "ai_delver_runtime" }]
 
 [tool.poetry.dependencies]
-python = ">=3.13"
-pymunk = "*"
+python = ">=3.11"
+pymunk = "==6.11.1"
 pyglet = "*"
 pytiling = { path = "../pytiling-lib", develop = true }
 pyglet_dragonbones = { path = "../pyglet-dragonbones", develop = true }

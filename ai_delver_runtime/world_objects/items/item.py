@@ -1,8 +1,10 @@
 from ..world_object import WorldObject
-from typing import Optional, Any
-from pyglet import sprite, image
-from pyglet.image.animation import Animation
-from pyglet.graphics import Batch
+from typing import Optional, Any, TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from pyglet.image.animation import Animation
+    from pyglet.graphics import Batch
 
 
 class Item(WorldObject):
@@ -10,21 +12,28 @@ class Item(WorldObject):
         self,
         runtime,
         sprite_path: Optional[str] = None,
-        animation: Optional[Animation] = None,
-        batch: Optional[Batch] = None,
+        render=True,
+        animation: Optional["Animation"] = None,
+        batch: Optional["Batch"] = None,
         size: tuple[int, int] = (24, 24),
     ):
         super().__init__(runtime)
 
-        self.batch = batch
+        self.render = render
         self.size: tuple[int, int] = size
-        self.sprite = self._create_sprite(sprite_path, animation)
 
-        self._update_sprite_position()
+        if render:
+            self.batch = batch
+            self.sprite = self._create_sprite(sprite_path, animation)
+
+            self._update_sprite_position()
+        else:
+            self.sprite = None
 
     def _create_sprite(
-        self, sprite_path: Optional[str], animation: Optional[Animation]
+        self, sprite_path: Optional[str], animation: Optional["Animation"]
     ):
+        from pyglet import image
 
         if sprite_path:
             img = image.load(sprite_path)
@@ -40,6 +49,8 @@ class Item(WorldObject):
             return self._get_sprite(animation)
 
     def _get_sprite(self, img: Any):
+        from pyglet import sprite
+
         spr = sprite.Sprite(img, batch=self.batch)
         return spr
 

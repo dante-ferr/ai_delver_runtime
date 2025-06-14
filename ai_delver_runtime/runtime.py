@@ -3,13 +3,11 @@ from .world_objects import WorldObjectsController, WorldObject
 from .world_objects.entities.delver import Delver
 from .world_objects.items import Goal
 from pyglet_dragonbones import config as pdb_config
-
-# Pylance throws a nonsense error here, so I had to ignore type checking.
 from pytiling import (
-    TilemapBorderTracer,  # type: ignore
-    PymunkTilemapPhysics,  # type: ignore
+    TilemapBorderTracer,
+    PymunkTilemapPhysics,
 )
-from pytiling.pyglet_support import TilemapRenderer  # type: ignore
+from pytiling.pyglet_support import TilemapRenderer
 import pymunk
 import json
 from pathlib import Path
@@ -21,7 +19,8 @@ pdb_config.fps = config["fps"]
 
 
 class Runtime:
-    def __init__(self, level: Any):
+    def __init__(self, level: Any, render):
+        self.render = render
         self.level = level
         self.space = pymunk.Space()
         self.space.gravity = (0, 0)
@@ -36,7 +35,8 @@ class Runtime:
         )
         self.goal = self.world_objects_controller.get_world_object("goal")
 
-        self.tilemap_renderer = self.tilemap_renderer_factory()
+        if self.render:
+            self.tilemap_renderer = self.tilemap_renderer_factory()
 
     def update(self, dt):
         self.world_objects_controller.update_world_objects(dt)
@@ -61,7 +61,7 @@ class Runtime:
 
     @property
     def tilemap(self):
-        return self.tilemap_renderer.tilemap
+        return self.level.map.tilemap
 
     def world_objects_controller_factory(self, space: "pymunk.Space"):
         world_objects_controller = WorldObjectsController()
@@ -77,13 +77,13 @@ class Runtime:
             world_objects_controller.add_world_object(world_object, **args)
 
         def _delver_factory(element):
-            delver = Delver(self, space=space)
+            delver = Delver(self, space=space, render=self.render)
             delver.set_angle(180)
 
             _place_world_object(delver, unique_identifier="delver")
 
         def _goal_factory(element):
-            goal = Goal(self, element.canvas_object_name)
+            goal = Goal(self, element.canvas_object_name, render=self.render)
 
             _place_world_object(goal, unique_identifier="goal")
 

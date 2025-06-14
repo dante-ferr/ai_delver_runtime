@@ -1,10 +1,7 @@
 from .. import Runtime
 import json
 from os import path
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from .delver_action import DelverAction
+from .delver_action import DelverAction
 
 with open(path.join(path.dirname(__file__), "../config.json"), "r") as file:
     config = json.load(file)
@@ -14,7 +11,7 @@ DT = 1 / config["fps"] * 3
 
 class Simulation(Runtime):
     def __init__(self, level):
-        super().__init__(level)
+        super().__init__(level, render=False)
 
         self.elapsed_time = 0.0
         self.delver_actions: list[DelverAction] = []
